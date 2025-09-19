@@ -5,7 +5,7 @@ import com.dimarzhanov.todoapp.repositories.TodoItemRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,12 +24,25 @@ public class ToDoController implements CommandLineRunner {
 //        todoItemRepository.save(new TodoItem("Item 2"));  перенес их вниз в метод ран интерфейса CommandLineRunner
         List<TodoItem> allTodos = todoItemRepository.findAll();
         model.addAttribute("allTodos", allTodos);
+        model.addAttribute("newTodo", new TodoItem());
 
 //        for(TodoItem todo : allTodos){
 //            System.out.println(todo);
 //        }
         //model.addAttribute("data", "Hello");//стартовая страница
         return "index";
+    }
+
+    @PostMapping("/add")
+    String add(@ModelAttribute TodoItem todoItem){
+        todoItemRepository.save(todoItem);
+        return "redirect:/";
+    }
+
+    @PostMapping("/delete/{id}")
+    String delete(@PathVariable("id") Long id){
+        todoItemRepository.deleteById(id);
+        return "redirect:/";
     }
 
     @Override
