@@ -37,8 +37,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s, box-shadow 0.2s;
-
-            display: flex;               /* текст и кнопка в ряд */
+            display: flex;
             justify-content: space-between;
             align-items: center;
         }
@@ -86,7 +85,7 @@
             background-color: #3751c7;
         }
 
-        /* Кнопка удаления */
+        /* Кнопка удаления каждой задачи */
         ul li form {
             margin: 0;
         }
@@ -105,6 +104,29 @@
         ul li form button:hover {
             background-color: #d32f2f;
         }
+
+        /* Форма «Удалить все задачи» */
+        form.delete-all {
+            max-width: 500px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        form.delete-all button {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background-color 0.2s;
+        }
+
+        form.delete-all button:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
@@ -113,6 +135,10 @@
 <form th:action="@{/add}" th:object="${newTodo}" method="post" class="add-form">
     <input type="text" th:field="*{title}" placeholder="Добавить задачу">
     <button type="submit">Добавить</button>
+</form>
+
+<form th:action="@{/deleteAll}" method="post" class="delete-all">
+    <button type="submit">Удалить все задачи</button>
 </form>
 
 <ul>
