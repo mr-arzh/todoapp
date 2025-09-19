@@ -37,6 +37,10 @@
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s, box-shadow 0.2s;
+
+            display: flex;               /* текст и кнопка в ряд */
+            justify-content: space-between;
+            align-items: center;
         }
 
         /* Эффект наведения */
@@ -51,13 +55,72 @@
             font-weight: 500;
             color: #444;
         }
+
+        /* Форма добавления */
+        form.add-form {
+            max-width: 500px;
+            margin: 0 auto 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        form.add-form input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        form.add-form button {
+            background-color: #4a6cf7;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        form.add-form button:hover {
+            background-color: #3751c7;
+        }
+
+        /* Кнопка удаления */
+        ul li form {
+            margin: 0;
+        }
+
+        ul li form button {
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        ul li form button:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
 <h1>Список дел</h1>
+
+<form th:action="@{/add}" th:object="${newTodo}" method="post" class="add-form">
+    <input type="text" th:field="*{title}" placeholder="Добавить задачу">
+    <button type="submit">Добавить</button>
+</form>
+
 <ul>
     <li th:each="item : ${allTodos}">
         <span th:text="${item.title}"></span>
+        <form th:action="@{/delete/{id}(id=${item.id})}" method="post">
+            <button type="submit">Удалить</button>
+        </form>
     </li>
 </ul>
 </body>
