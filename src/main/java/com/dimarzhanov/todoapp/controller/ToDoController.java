@@ -3,10 +3,12 @@ package com.dimarzhanov.todoapp.controller;
 import com.dimarzhanov.todoapp.model.TodoItem;
 import com.dimarzhanov.todoapp.repositories.TodoItemRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -14,8 +16,10 @@ public class ToDoController implements CommandLineRunner {
 
     private final TodoItemRepository todoItemRepository;
 
+
     public ToDoController(TodoItemRepository todoItemRepository) {
         this.todoItemRepository = todoItemRepository;
+        //this.todoItem = todoItem;
     }
 
     @GetMapping
@@ -49,6 +53,22 @@ public class ToDoController implements CommandLineRunner {
     public String delete(){
         todoItemRepository.deleteAll();
         return "redirect:/";
+    }
+
+    @PostMapping("/search")
+    public String searchItem(@RequestParam("searchTerm") String searchTerm, Model model) {
+        List<TodoItem> items = todoItemRepository.findAll();
+
+        List<TodoItem> filtered = new ArrayList<>();
+        for (TodoItem item : items) {
+            if (item.getTitle().toLowerCase().contains(searchTerm.toLowerCase()) && item.getTitle() != null) {
+                filtered.add(item);
+            }
+        }
+        model.addAttribute("allTodos", filtered);
+        model.addAttribute("newTodo", new TodoItem());
+        model.addAttribute("searchTerm", searchTerm); //чтоб было видно искомое слово в поисковой строке
+        return "index";
     }
 
     @Override

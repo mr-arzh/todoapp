@@ -43,4 +43,12 @@ public class TodoItem {
 //                ", title='" + title + '\'' +
 //                '}';
 //    }
+
+//    public String findAny(String word){
+//        if(title.contains(word)){
+//            return word;
+//        } else {
+//            return "missing object";
+//        }
+//    }
 }

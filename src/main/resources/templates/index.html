@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Список дел</title>
     <style>
-        /* Общие стили для всей страницы */
         body {
             font-family: "Segoe UI", Roboto, Arial, sans-serif;
             background: #f7f9fc;
@@ -13,7 +12,6 @@
             padding: 40px;
         }
 
-        /* Заголовок */
         h1 {
             text-align: center;
             font-size: 2rem;
@@ -21,7 +19,6 @@
             margin-bottom: 30px;
         }
 
-        /* Список */
         ul {
             list-style: none;
             padding: 0;
@@ -29,7 +26,6 @@
             margin: 0 auto;
         }
 
-        /* Пункты списка */
         ul li {
             background: #fff;
             margin-bottom: 12px;
@@ -42,28 +38,27 @@
             align-items: center;
         }
 
-        /* Эффект наведения */
         ul li:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
         }
 
-        /* Текст задачи */
         ul li span {
             font-size: 1rem;
             font-weight: 500;
             color: #444;
         }
 
-        /* Форма добавления */
-        form.add-form {
+        form.add-form,
+        form.search-form {
             max-width: 500px;
             margin: 0 auto 20px;
             display: flex;
             gap: 10px;
         }
 
-        form.add-form input {
+        form.add-form input,
+        form.search-form input {
             flex: 1;
             padding: 10px 12px;
             border: 1px solid #ccc;
@@ -71,7 +66,8 @@
             font-size: 1rem;
         }
 
-        form.add-form button {
+        form.add-form button,
+        form.search-form button {
             background-color: #4a6cf7;
             color: #fff;
             border: none;
@@ -81,11 +77,11 @@
             transition: background-color 0.2s;
         }
 
-        form.add-form button:hover {
+        form.add-form button:hover,
+        form.search-form button:hover {
             background-color: #3751c7;
         }
 
-        /* Кнопка удаления каждой задачи */
         ul li form {
             margin: 0;
         }
@@ -105,7 +101,6 @@
             background-color: #d32f2f;
         }
 
-        /* Форма «Удалить все задачи» */
         form.delete-all {
             max-width: 500px;
             margin: 0 auto 20px;
@@ -132,15 +127,24 @@
 <body>
 <h1>Список дел</h1>
 
+<!-- Добавление задачи -->
 <form th:action="@{/add}" th:object="${newTodo}" method="post" class="add-form">
     <input type="text" th:field="*{title}" placeholder="Добавить задачу">
     <button type="submit">Добавить</button>
 </form>
 
+<!-- Поиск -->
+<form th:action="@{/search}" method="post" class="search-form">
+    <input type="text" name="searchTerm" placeholder="Поиск задачи" th:value="${searchTerm}">
+    <button type="submit">Поиск</button>
+</form>
+
+<!-- Удалить все -->
 <form th:action="@{/deleteAll}" method="post" class="delete-all">
     <button type="submit">Удалить все задачи</button>
 </form>
 
+<!-- Список задач -->
 <ul>
     <li th:each="item : ${allTodos}">
         <span th:text="${item.title}"></span>
